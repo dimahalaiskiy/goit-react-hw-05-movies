@@ -1,25 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
+import { getTrending, getMovie } from './services/videoAPI';
+import HomePage from './HomePage/HomePage';
+import Header from './Header/Header';
+import Searchbar from './SearchBar/SearchBar';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [trendingFilms, setTrendingFilms] = useState([]);
+	const [movie, setMovie] = useState([]);
+
+	const getMovieOnQuery = async (query) => {
+		setMovie(await getMovie(query));
+	};
+
+	useEffect(() => {
+		const fetchVideos = async (videoApi, setState) => {
+			setState(await videoApi());
+		};
+
+		fetchVideos(getTrending, setTrendingFilms);
+	}, []);
+
+	return (
+		<>
+			<Header />
+			<Searchbar getQuery={getMovieOnQuery} />
+			<HomePage trendingFilms={trendingFilms} />;
+		</>
+	);
 }
 
 export default App;
