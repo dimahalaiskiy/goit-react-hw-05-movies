@@ -1,33 +1,31 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
-import { getTrending, getMovie } from './services/videoAPI';
+import React from 'react';
 import HomePage from './HomePage/HomePage';
+import MoviesPage from './MoviesPage/MoviesPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MovieDetailsPage from './MovieDetailsPage/MovieDetailsPage';
 import Header from './Header/Header';
-import Searchbar from './SearchBar/SearchBar';
+import Reviews from './Reviews/Reviews';
+import Cast from './Cast/Cast';
 
 function App() {
-	const [trendingFilms, setTrendingFilms] = useState([]);
-	const [movie, setMovie] = useState([]);
-
-	const getMovieOnQuery = async (query) => {
-		setMovie(await getMovie(query));
-	};
-
-	useEffect(() => {
-		const fetchVideos = async (videoApi, setState) => {
-			setState(await videoApi());
-		};
-
-		fetchVideos(getTrending, setTrendingFilms);
-	}, []);
-
-	return (
-		<>
-			<Header />
-			<Searchbar getQuery={getMovieOnQuery} />
-			<HomePage trendingFilms={trendingFilms} />;
-		</>
-	);
+  return (
+    <>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path='/' element={<HomePage />}></Route>
+          <Route path='movies' element={<MoviesPage />}></Route>
+          <Route path='/movies/:movieId' element={<MovieDetailsPage />}>
+            <Route path='/movies/:movieId/cast' element={<Cast />}></Route>
+            <Route
+              path='/movies/:movieId/reviews'
+              element={<Reviews />}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }
 
 export default App;
