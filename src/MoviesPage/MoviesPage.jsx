@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField } from '@mui/material';
 import { getMovie } from '../services/videoAPI';
 
 const MoviesPage = () => {
   const KEY_FOR_MOVIES = 'QUERY_MOVIES';
+  const nav = useNavigate();
 
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState(
@@ -14,6 +15,7 @@ const MoviesPage = () => {
 
   const getMovieOnQuery = async (query) => {
     setMovies(await getMovie(query));
+    nav(`/movies?query=${query}`);
   };
 
   useEffect(() => {
@@ -40,13 +42,13 @@ const MoviesPage = () => {
         onClick={() => getMovieOnQuery(query)}
         color='primary'
         variant='contained'>
-        Submit
+        Search
       </Button>
       <ul>
         {movies.map((el) => {
           return (
             <li key={el.id}>
-              <Link to={el.id}>{el.title}</Link>
+              <Link to={`/movies/${el.id}`}>{el.title}</Link>
             </li>
           );
         })}

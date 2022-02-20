@@ -2,21 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { HeaderContainer } from '../HomePage/HomePage.style';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import './Header.css';
 
 const Header = () => {
   return (
     <HeaderContainer>
-      <Link to='/'>
-        <Button color='primary' variant='contained'>
-          Home
-        </Button>
-      </Link>
-      <Link to='movies'>
-        <Button color='primary' variant='contained'>
-          Movies
-        </Button>
-      </Link>
+      <NavLink className='navlink' to='/'>
+        Home
+      </NavLink>
+      <NavLink className='navlink' to='movies'>
+        Movies
+      </NavLink>
     </HeaderContainer>
   );
 };

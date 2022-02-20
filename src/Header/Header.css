@@ -1,0 +1,12 @@
+.navlink {
+  background-color: cornflowerblue;
+  font-size: 28px;
+  color: white;
+  text-decoration: none;
+  border-radius: 5%;
+  padding: 5px;
+}
+
+.active {
+  background-color: crimson;
+}
