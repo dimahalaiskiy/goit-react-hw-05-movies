@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { getTrending } from '../services/videoAPI';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const HomePage = () => {
   const [trendingFilms, setTrendingFilms] = useState([]);
+  const location = useLocation();
+  console.log(location);
 
   useEffect(() => {
     const fetchVideos = async (videoApi, setState) => {
@@ -21,7 +23,9 @@ const HomePage = () => {
         {trendingFilms.map((el) => {
           return (
             <li key={el.id}>
-              <Link to={`/movies/${el.id}`}>{el.original_title}</Link>
+              <Link to={`/movies/${el.id}`} state={location.pathname}>
+                {el.original_title}
+              </Link>
             </li>
           );
         })}

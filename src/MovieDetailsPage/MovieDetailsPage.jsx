@@ -1,20 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useParams, useNavigate, Outlet } from 'react-router-dom';
+import {
+  Link,
+  useParams,
+  useNavigate,
+  Outlet,
+  useLocation,
+} from 'react-router-dom';
 import { getMovieDescription } from '../services/videoAPI';
 import { List, ListItem, Image, Additional } from './MovieDetailsPage.style';
 
 const MovieDetailsPage = () => {
   const [movie, setMovie] = useState('');
   const [img, setImg] = useState('');
+  const [backLocation, setBackLocation] = useState(null);
 
   const navigation = useNavigate();
+  const location = useLocation();
   const { movieId } = useParams();
 
+  console.log(location);
+
+  // const { from } = location.state;
+  // console.log(from);
   useEffect(() => {
     const getSingleVideo = async (id) => {
       setMovie(await getMovieDescription(id));
     };
+    if (location.state !== '') {
+      setBackLocation(location.state);
+    }
 
     getSingleVideo(movieId);
   }, [movieId]);
@@ -25,7 +40,7 @@ const MovieDetailsPage = () => {
   }, [movie]);
 
   const onGoBack = () => {
-    navigation(-1);
+    navigation(backLocation);
   };
 
   return (
