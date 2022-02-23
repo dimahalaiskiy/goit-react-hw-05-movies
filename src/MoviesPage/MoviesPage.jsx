@@ -10,16 +10,26 @@ const MoviesPage = () => {
   const nav = useNavigate();
   const location = useLocation();
 
-  const [query, setQuery] = useState(JSON.parse(localStorage.getItem(QUERY)));
-  const [movies, setMovies] = useState(
-    JSON.parse(localStorage.getItem(KEY_FOR_MOVIES))
-  );
+  const [query, setQuery] = useState('');
+  const [movies, setMovies] = useState([]);
 
   const getMovieOnQuery = async (query) => {
     if (!query) return;
     setMovies(await getMovie(query));
     nav(`/movies?query=${query}`, { state: `/movies?query=${query}` });
   };
+
+  useEffect(() => {
+    const movies = JSON.parse(localStorage.getItem(KEY_FOR_MOVIES));
+    const query = JSON.parse(localStorage.getItem(QUERY));
+
+    if (movies) {
+      setMovies(movies);
+    }
+    if (query) {
+      setQuery(query);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(KEY_FOR_MOVIES, JSON.stringify(movies));
