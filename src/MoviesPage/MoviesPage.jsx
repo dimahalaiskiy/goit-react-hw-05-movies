@@ -17,27 +17,32 @@ const MoviesPage = () => {
     if (!query) return;
     setMovies(await getMovie(query));
     nav(`/movies?query=${query}`, { state: `/movies?query=${query}` });
+    localStorage.setItem(QUERY, JSON.stringify(query));
+
+    setQuery('');
   };
 
   useEffect(() => {
     const movies = JSON.parse(localStorage.getItem(KEY_FOR_MOVIES));
-    const query = JSON.parse(localStorage.getItem(QUERY));
+    // const query = JSON.parse(localStorage.getItem(QUERY));
 
     if (movies) {
       setMovies(movies);
     }
-    if (query) {
-      setQuery(query);
-    }
+    // if (query) {
+    //   setQuery(query);
+    // }
   }, []);
 
   useEffect(() => {
     localStorage.setItem(KEY_FOR_MOVIES, JSON.stringify(movies));
+    const query = JSON.parse(localStorage.getItem(QUERY));
+
     if (movies.length !== 0) {
-      localStorage.setItem(QUERY, JSON.stringify(query));
+      // localStorage.setItem(QUERY, JSON.stringify(query));
       nav(`/movies?query=${query}`, { state: `/movies?query=${query}` });
     }
-  }, [movies]);
+  }, [movies, query]);
 
   return (
     <div>

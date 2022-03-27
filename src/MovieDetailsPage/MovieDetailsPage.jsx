@@ -21,8 +21,6 @@ const MovieDetailsPage = () => {
 
   console.log(location);
 
-  // const { from } = location.state;
-  // console.log(from);
   useEffect(() => {
     const getSingleVideo = async (id) => {
       setMovie(await getMovieDescription(id));
@@ -47,9 +45,14 @@ const MovieDetailsPage = () => {
     <div>
       {movie && (
         <div>
-          <button type='button' onClick={onGoBack}>
-            назад
-          </button>
+          <>
+            {backLocation && (
+              <button type='button' onClick={onGoBack}>
+                назад
+              </button>
+            )}
+          </>
+
           <List>
             <ListItem>
               <Image
